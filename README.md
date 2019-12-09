@@ -4,7 +4,7 @@ Chess game written in Python
 This is a personal project to code english Chess in Python
 
  - Need to find a way to integrate movehistlist modified by movehistory() function to determine game conditions
- - Need to complete pawn movements/attacks/promotion conditions
+ - Need to complete pawn movements/attacks
  - Is there a way not to hardcode the game board?
 
 # White is player 1, Black is player 2
