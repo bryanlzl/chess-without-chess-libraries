@@ -1,0 +1,11 @@
+Update (01/05/2020):
+- Created new file for interface of 'vs AI' chess mode, added tweaks, basically a modified human vs human mode interface to take chess AI input (Chess_vs_ai.py)
+- Integrated stalematcheck function (checking for stalemate condition) into both interface files
+
+Renamed all files: 
+Chess_main_menu.py handling main menu
+Chess_vs_human.py handling interface for human vs human mode
+Chess_vs_ai.py handling interface for human vs AI mode
+Chess_function.py as the program's skeleton (movement/check functions, evaluation of game states, modification of lists/gameboard etc...)
+
+Various bugfixes for Chess_vs_ai.py
