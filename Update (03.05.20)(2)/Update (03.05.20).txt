@@ -1,0 +1,7 @@
+Update (03/05/20)(2):
+- Added slight delay (0.35s) to AI moving the piece, easier to see which piece moved
+- Added delay (3s) after game ends for game window to go back to main menu
+
+Various bugfixes:
+- fixed an issue where stalemate and checkmate status not popping up as expected with crashes
+- fixed an issue where game board did not reset after game mode terminates, resulting the new game starting off at where the last game ended
