@@ -1,0 +1,9 @@
+Update (05/07/20):
+-- Added AI level 2 --
+The level 2 function looks ahead 3 moves to determine the best possible move in the worst case scenario
+Unlike level 0 and 1, this uses a Minimax algorithm with a search depth of 3 (3 plies).
+*Alpha-Beta Pruning* is used to cut down on the processing time
+
+Further improvements required:
+- Optimising of code structure as AI still takes massive durations (~ 5 mins) to process each move
+- Increasing search depth without compromising much on processing duration 
