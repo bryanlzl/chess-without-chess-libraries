@@ -4,6 +4,8 @@
  / __| '_ \ / _ \/ __/ __| 
 | (__| | | |  __/\__ \__ \  on python -Beta ver 1.1.1-
  \___|_| |_|\___||___/___/ 
+ 
+ *FOR ALL HISTORICAL UPDATES AND DEVELOPMENTS from day one, please go to 'Updates' branch*
                 _   _               .-.        _
     o   o      | |_| |             .' '.      ( )        |\.  
 o   /\ /\  o   |     |    .-"-.    (   )   .-. ^ .-.    /   '.     To use:
@@ -12,7 +14,7 @@ o   /\ /\  o   |     |    .-"-.    (   )   .-. ^ .-.    /   '.     To use:
   \_.--._/    /_.---._\  .'___'.  ._' '_.  )_.---._(     /____|    Put all .py files and media into a folder, run Chess_main_menu.py
   '.____.'    '._____.'  `-----'  '--^--'  `._____.'    `.____.'
 
-*English Chess written in python with pygame library for the interface*
+>>>English Chess written in python with pygame library for the interface<<<
 
 Fully written from scratch WITHOUT REFERENCE to chess engines, utilizing numpy array as the chessboard with integers representing individual pieces
 Chess board in white's perspective
