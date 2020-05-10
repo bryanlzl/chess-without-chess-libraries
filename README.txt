@@ -5,11 +5,11 @@
 | (__| | | |  __/\__ \__ \  on python -Beta ver 1.1.1-
  \___|_| |_|\___||___/___/ 
                 _   _               .-.        _
-    o   o      | |_| |             .' '.      ( )        |\.
-o   /\ /\  o   |     |    .-"-.    (   )   .-. ^ .-.    /   '.
-\`.'  `  `'/   '-----'    `. .'    `. .'  :   `.'   :  /_.'-  \
- \        /    |     |    .' '.     | |   `.       .'     /   | 
-  \_.--._/    /_.---._\  .'___'.  ._' '_.  )_.---._(     /____|
+    o   o      | |_| |             .' '.      ( )        |\.  
+o   /\ /\  o   |     |    .-"-.    (   )   .-. ^ .-.    /   '.     To use:
+\`.'  `  `'/   '-----'    `. .'    `. .'  :   `.'   :  /_.'-  \    Unzip zip file contents into any folder, run .exe file
+ \        /    |     |    .' '.     | |   `.       .'     /   |    or
+  \_.--._/    /_.---._\  .'___'.  ._' '_.  )_.---._(     /____|    Put all .py files and media into a folder, run Chess_main_menu.py
   '.____.'    '._____.'  `-----'  '--^--'  `._____.'    `.____.'
 
 *English Chess written in python with pygame library for the interface*
