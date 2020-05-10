@@ -1,8 +1,0 @@
-Update (03/05/2020):
-**Fully functional main menu (Chess_main_menu.py), handles user input, determines which game mode, 'vs AI' or 'vs Human' to run**
-- Added buttons, text, popups options to start game (AI difficulty/player selection) and selection highlight functionality (playbuttonselect, popup1p, popup2p, playbuttonselect)
-- Adjustments to positions of images and text in main menu (Chess_main_menu.py)
-- Modified main() in Chess_vs_ai.py to allow option of selecting AI difficulty level and turn. main() now takes two arguments, main(AIlevel, AIturn)
-
-Work in progress:
-- AI level 2, AI which uses a min-max search tree to find the best possible outcome under worst case scenarios, with alpha beta pruning to cut down on looking for redundant scenarios
