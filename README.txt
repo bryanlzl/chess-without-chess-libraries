@@ -5,7 +5,7 @@
 | (__| | | |  __/\__ \__ \  on python -Beta ver 1.1.1-
  \___|_| |_|\___||___/___/
  
- *FOR ALL HISTORICAL UPDATES AND DEVELOPMENTS from day one, please visit Updates branch*
+ *FOR ALL HISTORICAL UPDATES AND DEVELOPMENTS from day one, please visit Commits history*
                 _   _               .-.        _
     o   o      | |_| |             .' '.      ( )        |\.  
 o   /\ /\  o   |     |    .-"-.    (   )   .-. ^ .-.    /   '.     Instructions:
