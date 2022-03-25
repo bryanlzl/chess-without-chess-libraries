@@ -8,10 +8,10 @@
  *FOR ALL HISTORICAL UPDATES AND DEVELOPMENTS from day one, please visit Commits history*
                 _   _               .-.        _
     o   o      | |_| |             .' '.      ( )        |\.  
-o   /\ /\  o   |     |    .-"-.    (   )   .-. ^ .-.    /   '.     Instructions:
-\`.'  `  `'/   '-----'    `. .'    `. .'  :   `.'   :  /_.'-  \    Unzip zip file contents into any folder, run .exe file
- \        /    |     |    .' '.     | |   `.       .'     /   |    or
-  \_.--._/    /_.---._\  .'___'.  ._' '_.  )_.---._(     /____|    Put all .py files and media into a folder, run Chess_main_menu.py
+o   /\ /\  o   |     |    .-"-.    (   )   .-. ^ .-.    /   '.     
+\`.'  `  `'/   '-----'    `. .'    `. .'  :   `.'   :  /_.'-  \    
+ \        /    |     |    .' '.     | |   `.       .'     /   |    
+  \_.--._/    /_.---._\  .'___'.  ._' '_.  )_.---._(     /____|    
   '.____.'    '._____.'  `-----'  '--^--'  `._____.'    `.____.'
 
 >>>English Chess written in python with pygame library for the interface<<<
@@ -24,6 +24,10 @@ pieceid for p2 pawn 21-28, knight 31-32, bishop 33-34, rook 35-36, queen 37, kin
 
 Single player: play against AI level 0 to 2, level 2 utilizing *minimax algorithm with alpha-beta pruning of 3 ply/moves* (AI looks 3 moves ahead)
 Two players: play with your friend on the same PC!
+
+Instructions:
+1) Unzip zip file contents into any folder, run .exe file
+or store all .py files and media into a folder, run Chess_main_menu.py
 
 FEATURES:
 - Able to perform special moves such as castling, pawn en-passant captures
