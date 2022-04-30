@@ -16,7 +16,7 @@ o   /\ /\  o   |     |    .-"-.    (   )   .-. ^ .-.    /   '.
 
 >>>English Chess written in python with pygame library for the interface<<<
 
-Fully written WITHOUT REFERENCE to chess engines, utilizing numpy array as the chessboard with integers representing individual pieces, chess board in white's perspective. Once the game is concluded, player is brought to main menu after 3 seconds
+Written without reference to chess libraries, utilizing numpy array as the chessboard with integers representing individual pieces, chess board in white's perspective. Once the game is concluded, player is brought to main menu after 3 seconds
 
 White is player 1, Black is player 2
 pieceid for p1 pawn 01-08, knight 11-12, bishop 13-14, rook 15-16, queen 17, king 18
