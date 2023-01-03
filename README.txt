@@ -14,7 +14,7 @@ o   /\ /\  o   |     |    .-"-.    (   )   .-. ^ .-.    /   '.
   \_.--._/    /_.---._\  .'___'.  ._' '_.  )_.---._(     /____|    
   '.____.'    '._____.'  `-----'  '--^--'  `._____.'    `.____.'
 
->>>English Chess written in python with pygame library for the interface<<<
+>>>International Chess written in python with pygame library for the interface<<<
 
 Written without reference to chess libraries, utilizing numpy array as the chessboard with integers representing individual pieces, chess board in white's perspective. Once the game is concluded, player is brought to main menu after 3 seconds
 
