@@ -29,7 +29,7 @@ Once the game is concluded, player is brought to main menu after 3 seconds
 1) Unzip zip file contents into any folder, run .exe file
 or store all .py files and media into a folder, run Chess_main_menu.py
 
-##FUTURE IMPROVEMENTS:
+## FUTURE IMPROVEMENTS:
 - Cutting down the massive processing time of AI level 2 (~5 mins/move)
 
 Created by: bryanlzl
