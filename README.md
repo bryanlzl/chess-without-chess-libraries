@@ -1,6 +1,6 @@
 ## International Chess written in Python with pygame interface
 Written without reference to chess libraries, utilizing numpy array as the chessboard with integers representing individual pieces, chess board in white's perspective. 
-![Chess_Pieces_Sprite](https://github.com/bryanlzl/chess-without-chess-libraries/assets/58539426/9fd7327d-8163-4d6b-a2ea-84772957f270)
+<img src="[path_to_your_image.jpg](https://github.com/bryanlzl/chess-without-chess-libraries/assets/58539426/9fd7327d-8163-4d6b-a2ea-84772957f270)" alt="chess sprites" width="30%">
 
 ### Game Modes
 Single player: play against AI level 0 to 2, level 2 utilizing *minimax algorithm with alpha-beta pruning of 3 ply/moves* (AI looks 3 moves ahead)
