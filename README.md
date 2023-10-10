@@ -1,14 +1,14 @@
-##International Chess written in Python with pygame interface
+## International Chess written in Python with pygame interface
 Written without reference to chess libraries, utilizing numpy array as the chessboard with integers representing individual pieces, chess board in white's perspective. 
 
-![Chess pieces] (https://github.com/bryanlzl/chess-without-chess-libraries/blob/Master/media/Chess_Pieces_Sprite.png?raw=true)
+[Chess pieces] (https://github.com/bryanlzl/chess-without-chess-libraries/blob/Master/media/Chess_Pieces_Sprite.png?raw=true)
 *FOR ALL HISTORICAL UPDATES AND DEVELOPMENTS from day one, please visit Commits history*
 
 ### Game Modes
 Single player: play against AI level 0 to 2, level 2 utilizing *minimax algorithm with alpha-beta pruning of 3 ply/moves* (AI looks 3 moves ahead)
 Two players: play with your friend on the same PC!
 
-###FEATURES:
+### FEATURES:
 - AI opponent (up to 4-ply minimax algorithm with alpha-beta pruning)
 - Able to perform special moves such as castling, pawn en-passant captures
 - Move pathing markers on any select piece, (no move markers appear = illegal move)
@@ -23,7 +23,7 @@ pieceid for p1 pawn 01-08, knight 11-12, bishop 13-14, rook 15-16, queen 17, kin
 pieceid for p2 pawn 21-28, knight 31-32, bishop 33-34, rook 35-36, queen 37, king 38
 Once the game is concluded, player is brought to main menu after 3 seconds
 
-###How to start:
+### How to start:
 1) Unzip zip file contents into any folder, run .exe file
 or store all .py files and media into a folder, run Chess_main_menu.py
 
