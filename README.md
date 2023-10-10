@@ -1,5 +1,6 @@
 ## Chess in Python with Pygame interface
 Written without reference to chess libraries, utilizing numpy array as the chessboard with integers representing individual pieces, chess board in white's perspective. 
+
 <img src="https://github.com/bryanlzl/chess-without-chess-libraries/assets/58539426/9fd7327d-8163-4d6b-a2ea-84772957f270" alt="chess sprites" width="30%">
 
 ### Game Modes
