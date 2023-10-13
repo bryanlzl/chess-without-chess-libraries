@@ -1,4 +1,4 @@
-## Chess ![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)
+## Chess ![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg) ![Clone](https://img.shields.io/badge/clone%20count-23-green?logo=github)
 Written in Python from scratch, utilizing Pygame interface
 
 <img src="https://github.com/bryanlzl/chess-without-chess-libraries/assets/58539426/9fd7327d-8163-4d6b-a2ea-84772957f270" alt="chess sprites" width="40%">
