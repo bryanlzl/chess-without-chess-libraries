@@ -1,4 +1,4 @@
-import Chess_function as ch
+import moves.chess_utils as ch
 import numpy as np
 import random
 
