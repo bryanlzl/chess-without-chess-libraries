@@ -1,7 +1,8 @@
-import Chess_function as ch
-import itertools, sys
+import moves.chess_utils as ch
+import moves.chess_ai as ai
 import numpy as np
 import pygame as pg
+import itertools, sys
 
 movehistlist = []
 boardhistlist = []
@@ -18,8 +19,8 @@ chboard = np.copy(bboard)
 def rfconverter(sysrank, sysfile): # converts system rank file to real rank file
     counter, holder, realfile = 0, 0, 0
     realrank = 'a'
-    realranklist = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']
-    notrealfilelist = [7, 6, 5, 4, 3, 2, 1, 0]
+    realranklist = ['a','b','c','d','e','f','g','h']
+    notrealfilelist = [7,6,5,4,3,2,1,0]
     holder = sysrank
     sysrank = sysfile
     sysfile = holder
@@ -34,7 +35,7 @@ def rfconverter(sysrank, sysfile): # converts system rank file to real rank file
             realrank = i
             break
         counter += 1
-    return [realrank, realfile]
+    return [realrank,realfile]
 
 ### INTERFACE START###
 pg.init()
@@ -42,9 +43,9 @@ pg.init()
 BLACK = pg.Color('grey')
 WHITE = pg.Color('white')
 GREEN = (0,90,0)
-BRIGHTGREEN = (0,238,0)
 OLIVEGREEN = (110,139,61)
 FORESTGREEN = (0,50,0)
+CHOCOLATE = (139,69,19)
 LIGHTBROWN = (205,192,176)
 LEMON = (238,233,191)
 ORANGE = (238,64,0)
@@ -106,7 +107,7 @@ chess_sprites = [
     {"name": "B_Pawn", "id": 11, "piece_type": ch.piecetypelist(2, "pawn"), "position": [((i - 21) * 70, 70) for i in ch.piecetypelist(2, "pawn")], "sprites": frames[11]}
 ]
 
-def main():
+def main(level, selectaiturn): # selectaiturn = what turn the AI would be # level = difficulty of computer player
     global SCREEN, CLOCK
     pg.init()
     pg.display.set_caption('Chess by bryanlzl')
@@ -119,7 +120,8 @@ def main():
     pawnpromote = 0
     size = 0
     checkmate = False
-
+    stalemate = False
+    airun = 0
     pg.event.set_blocked([pg.MOUSEMOTION, pg.MOUSEBUTTONUP])
 
     while True:
@@ -132,6 +134,7 @@ def main():
         renderturnimage(ch.checkturn(chboard, boardhistlist, movehistlist))
         drawhistbox()
         drawhisttext(SCREEN, notationtext, [0, 0, 0], [577, 344, 248, 230], scroller)
+        gamestatustext(chboard, ch.checkturn(chboard, boardhistlist, movehistlist), boardhistlist, movehistlist, checkmate, stalemate)
 
         if size != len(movehistlist) or (size == 0 and len(movehistlist) == 0): # when any player makes a move
             size = len(movehistlist)
@@ -144,29 +147,78 @@ def main():
         if pawnpromote == 1:
             promhighlights() ## highlight promotion buttons ##
 
+        if checkmate == True or stalemate == True:
+            pg.time.delay(3000)
+            for i in range(8):
+                for j in range(8):
+                    chboard[i][j] = bboard[i][j]
+            movehistlist.clear()
+            boardhistlist.clear()
+            notehistlist.clear()
+            notehistlist.clear()
+            break
+
         if len(movehistlist) >= 1: # Announces the current check status
             movedpiece = movehistlist[len(movehistlist)-1][0] # [movedpiece, captured, rank, file]
             pieceidentified = ch.pieceidentifier(movedpiece)
             if pieceidentified < 20 and pieceidentified != 99: # If white made previous move
                 gamestatustext(chboard, 2, boardhistlist, movehistlist, checkmate, stalemate)
-                pg.display.update()
             elif pieceidentified >= 20 and pieceidentified != 99:
                 gamestatustext(chboard, 1, boardhistlist, movehistlist, checkmate, stalemate)
-                pg.display.update()
-            if checkmate == True or stalemate == True:
-                pg.time.delay(3000)
-                ### WIPE BOARD ###
-                for i in range(8):
-                    for j in range(8):
-                        chboard[i][j] = bboard[i][j]
-                movehistlist.clear()
-                boardhistlist.clear()
-                notehistlist.clear()
-                notehistlist.clear()
-                break
+
+        ### AI TURN TO RUN ###
+        if (selectaiturn == 1 and airun == 1): # IF AI PLAYS BLACK
+            renderturnimage(ch.checkturn(chboard, boardhistlist, movehistlist))
+            AIloadingtext(chboard, ch.checkturn(chboard, boardhistlist, movehistlist), movehistlist, checkmate, stalemate)
+            pg.display.update()
+            pg.time.delay(350)
+            aiturn = ch.checkturn(chboard, boardhistlist, movehistlist)
+            tempboard = ch.cloneboard(chboard)
+
+            if level == 0: ### AI DIFFICULTY LEVEL ###
+                ai_move = ai.level0ai(chboard, aiturn, movehistlist, boardhistlist) # [pieceid, pmtdpieceid, rank, file]
+            elif level == 1:
+                ai_move = ai.level1ai(chboard, aiturn, movehistlist, boardhistlist) # [pieceid, pmtdpieceid, rank, file]
+            elif level == 2:
+                ai_move = ai.level2ai(chboard, aiturn, movehistlist, boardhistlist) # [pieceid, pmtdpieceid, rank, file]
+            elif level == 3:
+                pass
+            ch.chessim(chboard, movehistlist, boardhistlist, ai_move[1], aiturn, ai_move[0], ai_move[2], ai_move[3]) # [chboard, movehistlist, boardhistlist, pmtdpieceid, turn, pieceid, rank, file]
+            ch.notationhistory(chboard, tempboard, notehistlist)
+            notationtext = notationlisttotext(notehistlist)
+            airun = 0
+            if ch.stalematecheck(chboard, movehistlist, ch.checkturn(chboard, boardhistlist, movehistlist)) == True or ch.checkmatecheck(chboard, ch.checkturn(chboard, boardhistlist, movehistlist), movehistlist, boardhistlist) == True:
+                stalemate = ch.stalematecheck(chboard, movehistlist, ch.checkturn(chboard, boardhistlist, movehistlist))
+                checkmate = ch.checkmatecheck(chboard, ch.checkturn(chboard, boardhistlist, movehistlist), movehistlist, boardhistlist)
+                continue
+
+        elif (selectaiturn == 0 and airun == 0) or (selectaiturn == 0 and len(movehistlist) == 0): # IF AI PLAYS WHITE
+            renderturnimage(ch.checkturn(chboard, boardhistlist, movehistlist))
+            AIloadingtext(chboard, ch.checkturn(chboard, boardhistlist, movehistlist), movehistlist, checkmate, stalemate)
+            pg.display.update()
+            pg.time.delay(350)
+            aiturn = ch.checkturn(chboard, boardhistlist, movehistlist)
+            tempboard = ch.cloneboard(chboard)
+
+            if level == 0: ### AI DIFFICULTY LEVEL ###
+                ai_move = ai.level0ai(chboard, aiturn, movehistlist, boardhistlist) # [pieceid, pmtdpieceid, rank, file]
+            elif level == 1:
+                ai_move = ai.level1ai(chboard, aiturn, movehistlist, boardhistlist) # [pieceid, pmtdpieceid, rank, file]
+            elif level == 2:
+                ai_move = ai.level2ai(chboard, aiturn, movehistlist, boardhistlist) # [pieceid, pmtdpieceid, rank, file]
+            elif level == 3:
+                pass
+            ch.chessim(chboard, movehistlist, boardhistlist, ai_move[1], aiturn, ai_move[0], ai_move[2], ai_move[3]) # [chboard, movehistlist, boardhistlist, pmtdpieceid, turn, pieceid, rank, file]
+            ch.notationhistory(chboard, tempboard, notehistlist)
+            notationtext = notationlisttotext(notehistlist)
+            airun = 1
+            if ch.stalematecheck(chboard, movehistlist, ch.checkturn(chboard, boardhistlist, movehistlist)) == True or ch.checkmatecheck(chboard, ch.checkturn(chboard, boardhistlist, movehistlist), movehistlist, boardhistlist) == True:
+                stalemate = ch.stalematecheck(chboard, movehistlist, ch.checkturn(chboard, boardhistlist, movehistlist))
+                checkmate = ch.checkmatecheck(chboard, ch.checkturn(chboard, boardhistlist, movehistlist), movehistlist, boardhistlist)
+                continue
 
         for event in pg.event.get():
-            if event.type == pg.MOUSEBUTTONDOWN:
+            if event.type == pg.MOUSEBUTTONDOWN: # scrolling for move history box
                 if event.button == 4:
                     if scroller > 0:
                         scroller -= 1
@@ -179,45 +231,69 @@ def main():
                 if len(notehistlist) > 0:
                     notehistlist.pop(len(notehistlist) - 1)
                     notationtext = notationlisttotext(notehistlist)
+                ch.undomove(chboard, boardhistlist, movehistlist)
+                if len(notehistlist) > 0:
+                    notehistlist.pop(len(notehistlist) - 1)
+                    notationtext = notationlisttotext(notehistlist)
 
-            if event.type == pg.MOUSEBUTTONDOWN and (fclick == 0 or fclick[0] == 999) and pg.mouse.get_pressed()[0]:
+            if event.type == pg.MOUSEBUTTONDOWN and (fclick == 0 or fclick[0] == 999) and pg.mouse.get_pressed()[0] and ((airun == 0 and selectaiturn == 1) or (airun == 1 and selectaiturn == 0)):
                 fclick = firstclick() # [pieceid, turn]
                 if fclick[1] != ch.checkturn(chboard, boardhistlist, movehistlist): # checks turn is correct
                     fclick = 0
                     continue
                 continue
 
-            elif (event.type == pg.MOUSEBUTTONDOWN) and (fclick != 0) and pg.mouse.get_pressed()[0] and (pawnpromote == 0): # first click is in the board and on any piece
+            elif (event.type == pg.MOUSEBUTTONDOWN) and (fclick != 0) and pg.mouse.get_pressed()[0] and (pawnpromote == 0):
+                # first click is in the board and on any piece
                 sclick = secondclick() ### [rank, file] ###
                 if sclick[0] != 999: # second click is in the board
                     if ch.onemovecheckcheck(chboard, boardhistlist, movehistlist, fclick[1], fclick[0], sclick[0], sclick[1]) == True:
                         fclick = 0
                         continue
-
-                    if ch.pawncheckmove(chboard, fclick[1], fclick[0], sclick[0], sclick[1], movehistlist) == [True, 'p']: ## promote pawn!! ##
+                    if ch.pawncheckmove(chboard, fclick[1], fclick[0], sclick[0], sclick[1], movehistlist) == [True, 'p']: # promote pawn!!
                         pawnpromote = 1
                         continue
-
+                        #check for checkmate and stalemate#
                     tempboard = ch.cloneboard(chboard)
                     ch.chessim(chboard, movehistlist, boardhistlist, 100, fclick[1], fclick[0], sclick[0], sclick[1])
                     ch.notationhistory(chboard, tempboard, notehistlist)
                     notationtext = notationlisttotext(notehistlist)
                     fclick = 0
-                    continue
+                    if selectaiturn == 0:
+                        airun = 0
+                    elif selectaiturn == 1:
+                        airun = 1
+                    drawGrid()
+                    rendersprites()
+                    drawhistbox()
+                    drawhisttext(SCREEN, notationtext, [0, 0, 0], [577, 344, 248, 230], scroller)
+                    stalemate = ch.stalematecheck(chboard, movehistlist, ch.checkturn(chboard, boardhistlist, movehistlist))
+                    checkmate = ch.checkmatecheck(chboard, ch.checkturn(chboard, boardhistlist, movehistlist), movehistlist, boardhistlist)
+                    gamestatustext(chboard, ch.checkturn(chboard, boardhistlist, movehistlist), boardhistlist, movehistlist, checkmate, stalemate)
 
-            elif (event.type == pg.MOUSEBUTTONDOWN) and (fclick != 0) and pg.mouse.get_pressed()[0] and pawnpromote == 1:
+            elif (event.type == pg.MOUSEBUTTONDOWN) and (fclick != 0) and pg.mouse.get_pressed()[0] and pawnpromote == 1 and ((airun == 0 and selectaiturn == 1) or (airun == 1 and selectaiturn == 0)):
                 pclick = promclick(fclick, sclick)
                 if pclick[0] != 999:
                     if ch.onemovecheckcheck(chboard, boardhistlist, movehistlist, pclick[1], pclick[2], pclick[3], pclick[4]) == True:
                         fclick = 0
                         continue
                     tempboard = ch.cloneboard(chboard)
-                    ch.chessim(chboard, movehistlist, boardhistlist, pclick[0], pclick[1], pclick[2], pclick[3], pclick[4])
+                    ch.chessim(chboard, movehistlist, boardhistlist, pclick[0], pclick[1], pclick[2], pclick[3], pclick[4]) # [chboard, movehistlist, boardhistlist, pmtdpieceid, turn, pieceid, rank, file]
                     ch.notationhistory(chboard, tempboard, notehistlist)
                     notationtext = notationlisttotext(notehistlist)
                     pawnpromote = 0
                     fclick = 0
-                    continue
+                    if selectaiturn == 0:
+                        airun = 0
+                    elif selectaiturn == 1:
+                        airun = 1
+                    drawGrid()
+                    rendersprites()
+                    drawhistbox()
+                    drawhisttext(SCREEN, notationtext, [0, 0, 0], [577, 344, 248, 230], scroller)
+                    stalemate = ch.stalematecheck(chboard, movehistlist, ch.checkturn(chboard, boardhistlist, movehistlist))
+                    checkmate = ch.checkmatecheck(chboard, ch.checkturn(chboard, boardhistlist, movehistlist), movehistlist, boardhistlist)
+                    gamestatustext(chboard, ch.checkturn(chboard, boardhistlist, movehistlist), boardhistlist, movehistlist, checkmate, stalemate)
                 else:
                     continue
 
@@ -229,7 +305,7 @@ def main():
 
 
 def rendersprites():
-    counter, x, y = 0, 0, 0
+    counter,x,y = 0,0,0
     spriteSize = 70  # Set the size of the grid block
     for row in chboard:
         x = 0
@@ -291,7 +367,7 @@ def drawpromoteButtons():
     pg.draw.rect(SCREEN, (0, 0, 0), contain, 3)
 
     for y in range(4): # BUTTONS
-        rect = pg.Rect(575, 60+(y*50*1.05), width, height)
+        rect = pg.Rect(575, 60+(y * 50 * 1.05), width, height)
         pg.draw.rect(SCREEN, LEMON, rect)
 
 
@@ -299,7 +375,7 @@ def promotebuttonText():
     POKEFONT1 = pg.font.Font("./media/8-Bit Madness.ttf", 23)
     text = ['Knight','Bishop','Rook','Queen']
     for y in range(4):
-        SCREEN.blit(POKEFONT1.render(text[y], True, (0, 0, 0)), (585, 63+(y*50*1.05)))
+        SCREEN.blit(POKEFONT1.render(text[y], True, (0, 0, 0)), (585, 63 + (y * 50 * 1.05)))
     SCREEN.blit(POKEFONT1.render('Promotion!', True, (0, 0, 0)), (580, 18))
 
 
@@ -308,7 +384,7 @@ def mousepostoboard(x, y): # mouse click on board, returns row and col
     for i in grid:
         col = 0
         for j in i:
-            if j.collidepoint(x,y):
+            if j.collidepoint(x, y):
                 return (col, row) # returns location on chboard
             col += 1
         row += 1
@@ -496,15 +572,24 @@ def gamestatustext(chboard, turn, boardhistlist, movehistlist, checkmate, stalem
             SCREEN.blit(POKEFONT2.render('White Checkmate', True, CRIMSON), (173, 607))
         elif turn == 2:
             SCREEN.blit(POKEFONT2.render('Black Checkmate', True, CRIMSON), (173, 607))
-        return
     elif (ch.checkcheck(chboard, turn, movehistlist) == True) and (checkmate == False) and (stalemate == False):
         if turn == 1:
             SCREEN.blit(POKEFONT1.render('White Check', True, ORANGE), (197, 607))
         elif turn == 2:
             SCREEN.blit(POKEFONT1.render('Black Check', True, ORANGE), (197, 607))
-        return
     elif stalemate == True:
-        SCREEN.blit(POKEFONT2.render('Stalemate', True, CRIMSON), (210, 607))
+        SCREEN.blit(POKEFONT1.render('Stalemate', True, CRIMSON), (210, 607))
+
+
+def AIloadingtext(chboard, turn, movehistlist, checkmate, stalemate):
+    POKEFONT2 = pg.font.Font("./media/8-Bit Madness.ttf", 30)
+    if checkmate == True or stalemate == True:
+        return
+    elif ch.checkcheck(chboard, turn, movehistlist) == True:
+        SCREEN.blit(POKEFONT2.render('Bot is thinking', True, CHOCOLATE), (192, 629))
+        return
+    else:
+        SCREEN.blit(POKEFONT2.render('Bot is thinking', True, CHOCOLATE), (192, 607))
         return
 
 
